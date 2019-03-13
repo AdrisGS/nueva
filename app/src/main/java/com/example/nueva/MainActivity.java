@@ -1,11 +1,13 @@
 package com.example.nueva;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.webkit.WebView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 
 import org.xmlpull.v1.XmlPullParserException;
@@ -19,35 +21,33 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     final static String urlAddress="https://www.ivoox.com/podcast-cloud-jazz-smooth-jazz_fg_f127170_filtro_1.xml";
-    private   ArrayList<Item> entries = null;
+
+    private ArrayList<Item> entries = null;
+
+    private ApadtadorItems apadtadorItems;
+
+    private ListView listView;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        entries = new ArrayList<Item>();
+
+        entries = new ArrayList();
+
+
 
         new DownloadXmlTask().execute(urlAddress);
+
 
         Log.d("aqui tamooo", String.valueOf(entries.size()));
 
     }
 
-   /* public void loadPage() {
-
-        if ((sPref.equals(ANY)) && (wifiConnected || mobileConnected)) {
-
-        } else if ((sPref.equals(WIFI)) && (wifiConnected)) {
-            new DownloadXmlTask().execute(urlAddress);
-        } else {
-            // show error
-            Toast.makeText(this,"Error en el archivo",Toast.LENGTH_SHORT).show();
-        }
-    }*/
-
     private class DownloadXmlTask extends AsyncTask<String, Void, ArrayList<Item>> {
-
-
 
         @Override
         protected ArrayList<Item> doInBackground(String... strings) {
@@ -63,7 +63,20 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(ArrayList<Item> result) {
             setContentView(R.layout.activity_main);
             // Displays the HTML string in the UI via a WebView
+
+            listView = findViewById(R.id.listaaa);
+            Log.d("a que hora", String.valueOf(result.size()));
             ArrayList<Item> listaaa = result;
+            Log.e("tam de listaa", String.valueOf(listaaa.size()));
+            TextView textView = findViewById(R.id.titulo);
+
+
+            //textView.setText(listaaa.get(0).titulo.toString());
+
+            apadtadorItems = new ApadtadorItems(getApplication().getApplicationContext(),listaaa,R.layout.activity_main);
+            listView.setAdapter(apadtadorItems);
+
+            Log.d("sale?", String.valueOf(result.size()));
 
 
         }
