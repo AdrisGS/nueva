@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">nueva</string>
+    <string name="connection_error">Error de conección de red</string>
+    <string name="xml_error">Error con el xml</string>
+    <string name="page_title">Audios</string>
+    <string name="updated">Actualizado</string>
+</resources>
